@@ -122,3 +122,44 @@ class BaseViewController: UIViewController {
 ### Kod yapısının açıklanması
 1. BaseViewController
     -   configureBackButtonAppearance(): Geri butonunu minimal bir tasarımla yapılandırır.
+
+
+## NavigationBar Custom Height
+
+```
+import UIKit
+class CustomNavigationBar: UINavigationBar {
+
+    var preferredHeight: CGFloat = 64
+
+      override var frame: CGRect {
+          get {
+              return super.frame
+          } set {
+              var frame = newValue
+              frame.size.height = preferredHeight
+              super.frame = frame
+          }
+      }
+      
+      override func layoutSubviews() {
+          super.layoutSubviews()
+          frame = CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: preferredHeight)
+      }
+}
+
+```
+### Kod yapısının açıklanması
+1. CustomNavigationBar
+    -   UINavigationBar dan kalıtım alınarak custom sınıf oluşturulur ve NavgationController oluşturulurklen custom sınıf kullanılır.
+
+
+### Örnek Kullanım:
+
+```
+
+let navigationController = UINavigationController(navigationBarClass: NavigationBar.self, toolbarClass: nil)
+(navigationController.navigationBar as! NavigationBar).preferredHeight = 88
+navigationController.setViewControllers([ViewController()], animated: false)
+
+```
