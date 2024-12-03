@@ -148,11 +148,33 @@ class CustomNavigationBar: UINavigationBar {
       }
 }
 
+extension UINavigationController {
+    convenience init(rootViewController: UIViewController) {
+        self.init(navigationBarClass: CustomNavigationBar.self, toolbarClass: nil )
+        self.setViewControllers([rootViewController], animated: false)
+       }
+}
+
+```
+
+```
+class BaseViewController: UIViewController {
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+          if let navigationBar = navigationController?.navigationBar as? CustomNavigationBar {
+            let barHeight = navigationBar.frame.height
+            self.additionalSafeAreaInsets.top = barHeight - 44 // default navbar height
+        }
+    }
+  
+    
 ```
 ### Kod yapısının açıklanması
 1. CustomNavigationBar
     -   UINavigationBar dan kalıtım alınarak custom sınıf oluşturulur ve NavgationController oluşturulurklen custom sınıf kullanılır.
-
+1. BaseViewController
+    -   navigationBar eğer CustomNavigationBar ise view in başkangıç noktasını aşağıya alır
 
 ### Örnek Kullanım:
 
